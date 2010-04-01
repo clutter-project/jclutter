@@ -1,0 +1,37 @@
+
+INSTALL
+=======
+
+Make sure that you have all dependencies installed:
+- Java JDK 1.5+
+- Ant (for building and running tests)
+- Clutter 1.2+ and its dependencies (glib, cairo, pango).
+
+These are commands to install dependencies on Ubuntu/Debian :
+
+sudo apt-get openjdk-6-jre ant
+sudo apt-get libx11-dev libxext-dev libxfixes-dev libxdamage-dev libxcomposite-dev libgl1-mesa-dev
+sudo apt-get libpango1.0-dev libcairo2-dev  libglib2.0-dev libgdk-pixbuf-dev libgtk2.0-dev
+
+
+BUILD
+=====
+
+Building all (java + native + tests) is done by running "ant all".
+Building the jclutter jar alone is done by running "ant".
+
+Note : this has only been tested on Ubuntu.
+Check the ant.properties file for details on the variables used during compilation.
+
+
+TEST
+====
+
+To run a test type "ant test-xxx", where test-xxx is the test name.
+Run "ant -p" to list all targets available.
+For example, this can be run :
+
+ant test-interactive-actors
+
+Note : if the clutter native library is not found you may need to execute :
+export LD_LIBRARY_PATH=/usr/local/lib/ (or appropriate path)

@@ -1,0 +1,8 @@
+
+
+- Import missing test cases from clutter and fix the current ones.
+- Import documentation into the javadoc.
+- Maybe include security permission checks on stage, clutter general api and backend.
+- Script api is under construction
+- Fix glist collections and other getchildren.
+- Clean C code (release strings, ...).

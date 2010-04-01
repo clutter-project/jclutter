@@ -1,0 +1,33 @@
+#include <jni.h>
+
+JNIEXPORT jstring JNICALL Java_org_jclutter_pango_PangoContext_getLanguage(JNIEnv *, jobject);
+JNIEXPORT void JNICALL Java_org_jclutter_pango_PangoContext_setLanguage(JNIEnv *, jobject, jstring);
+JNIEXPORT void JNICALL Java_org_jclutter_pango_PangoContext_setBaseDirection(JNIEnv *, jobject, jint);
+JNIEXPORT jint JNICALL Java_org_jclutter_pango_PangoContext_getBaseDirection(JNIEnv *, jobject);
+JNIEXPORT jobject JNICALL Java_org_jclutter_pango_PangoContext_getMatrix(JNIEnv *, jobject);
+JNIEXPORT void JNICALL Java_org_jclutter_pango_PangoContext_setMatrix(JNIEnv *, jobject, jobject);
+JNIEXPORT jobject JNICALL Java_org_jclutter_pango_Layout_getSize(JNIEnv *, jobject);
+JNIEXPORT void JNICALL Java_org_jclutter_pango_Layout_setText(JNIEnv *, jobject, jstring);
+JNIEXPORT jstring JNICALL Java_org_jclutter_pango_Layout_getText(JNIEnv *, jobject);
+JNIEXPORT void JNICALL Java_org_jclutter_pango_Layout_setMarkup(JNIEnv *, jobject, jstring);
+JNIEXPORT jstring JNICALL Java_org_jclutter_pango_Layout_getMarkup(JNIEnv *, jobject);
+JNIEXPORT jboolean JNICALL Java_org_jclutter_pango_Layout_isAutoDir(JNIEnv *, jobject);
+JNIEXPORT void JNICALL Java_org_jclutter_pango_Layout_setAutoDir(JNIEnv *, jobject, jboolean);
+JNIEXPORT jint JNICALL Java_org_jclutter_pango_Layout_getWidth(JNIEnv *, jobject);
+JNIEXPORT jint JNICALL Java_org_jclutter_pango_Layout_getHeight(JNIEnv *, jobject);
+JNIEXPORT void JNICALL Java_org_jclutter_pango_Layout_setWidth(JNIEnv *, jobject, jint);
+JNIEXPORT void JNICALL Java_org_jclutter_pango_Layout_setHeight(JNIEnv *, jobject, jint);
+JNIEXPORT void JNICALL Java_org_jclutter_pango_Layout_setEllipsizeMode(JNIEnv *, jobject);
+JNIEXPORT jint JNICALL Java_org_jclutter_pango_Layout_getEllipsizeMode(JNIEnv *, jobject);
+JNIEXPORT void JNICALL Java_org_jclutter_pango_Layout_setWrapMode(JNIEnv *, jobject, jint);
+JNIEXPORT jint JNICALL Java_org_jclutter_pango_Layout_getWrapMode(JNIEnv *, jobject);
+JNIEXPORT void JNICALL Java_org_jclutter_pango_Layout_setIndent(JNIEnv *, jobject, jint);
+JNIEXPORT jint JNICALL Java_org_jclutter_pango_Layout_getIndent(JNIEnv *, jobject);
+JNIEXPORT void JNICALL Java_org_jclutter_pango_Layout_setSpacing(JNIEnv *, jobject, jint);
+JNIEXPORT jint JNICALL Java_org_jclutter_pango_Layout_getSpacing(JNIEnv *, jobject);
+JNIEXPORT void JNICALL Java_org_jclutter_pango_Layout_setJustify(JNIEnv *, jobject, jboolean);
+JNIEXPORT jboolean JNICALL Java_org_jclutter_pango_Layout_isJustify(JNIEnv *, jobject);
+JNIEXPORT void JNICALL Java_org_jclutter_pango_Layout_setAutodir(JNIEnv *, jobject, jboolean);
+JNIEXPORT jboolean JNICALL Java_org_jclutter_pango_Layout_isAutodir(JNIEnv *, jobject);
+JNIEXPORT void JNICALL Java_org_jclutter_pango_Layout_setAlignment(JNIEnv *, jobject, jint);
+JNIEXPORT jint JNICALL Java_org_jclutter_pango_Layout_getAlignment(JNIEnv *, jobject);

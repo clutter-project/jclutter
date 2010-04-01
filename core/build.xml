@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     13 oct. 08 22:02:51                                                        
+
+     JClutter Java Build
+                   
+     Kamal El Bedraoui                                                                
+     ====================================================================== -->
+<project name="JClutter" default="jar">
+
+	<property file="ant.properties"/>
+	
+	<path id="base.path">
+		<fileset dir="${dest}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<path id="tests.path">
+		<path refid="base.path" />
+		<pathelement location="${build}" />
+	</path>
+
+	<macrodef name="test">
+		<attribute name="target" />
+		<attribute name="param" default="" />
+		<sequential>
+			<condition property="test.param" value="@{param}">
+				<not>
+					<equals arg1="@{param}" arg2="" />
+				</not>
+			</condition>
+			<property name="test.target" value="@{target}" />
+			<antcall target="test-target" />
+			<antcall target="test-target-param" />
+		</sequential>
+	</macrodef>
+	
+	<target name="all" depends="jar, gen, compile-tests" description="Generates the java and native libraries and compile the test classes.">
+		<exec executable="/bin/sh">
+			<arg value="compile.sh"/>
+		</exec>
+	</target>
+	
+	<target name="java" depends="jar, compile-tests" description="Generates ${jar.name} and compile the test classes.">
+	</target>
+
+	<target name="test-target" unless="test.param" >
+		<java fork="true" classname="${test.launcher}" classpathref="tests.path">
+			<jvmarg value="-Djava.library.path=${dest}" />
+			<arg value="${test.pkg}.${test.target}" />
+		</java>
+	</target>
+
+	<target name="test-target-param" if="test.param">
+		<echo>Test with param ${test.param}</echo>
+		<java fork="true" classname="${test.launcher}" classpathref="tests.path">
+			<sysproperty key="java.library.path" value="${dest}" />
+			<arg value="${test.pkg}.${test.target}" />
+			<arg value="${test.param}" />
+		</java>
+	</target>
+
+	<target name="jar" depends="init" description="Generates the distribution jar (${jar.name})">
+		<javac destdir="${build}" includes="org/jclutter/**">
+			<src path="${src}" />
+		</javac>
+		<mkdir dir="${dest}"/>
+		<jar destfile="${dest}/${jar.name}" basedir="${build}">
+		</jar>
+	</target>
+
+	<target name="javadoc" description="Generates the java api documentation">
+		<delete dir="doc" />
+		<javadoc destdir="doc" packagenames="org.jclutter.*" sourcepath="${src}" public="yes">
+			<tag scope="all" name="clutter.version" description="Since Clutter:">
+			</tag>
+		</javadoc>
+	</target>
+
+	<target name="init">
+		<delete dir="${build}" />
+		<mkdir dir="${build}" />
+	</target>
+
+	<target name="clean">
+		<delete dir="${build}" />
+		<delete dir="${dest}" />
+		<delete file="compile.sh" />
+	</target>
+
+	<target name="gen" description="Creates a script that compiles the native source (compile.sh)">
+		<mkdir dir="${dest}"/>
+<echo file="compile.sh" >
+${compile.env}
+${compile.command}
+</echo>
+		<chmod file="compile.sh" perm="a+rx"/>
+	</target>
+
+	<target name="compile-tests" depends="init" description="">
+		<javac srcdir="${src.test}" encoding="UTF-8" destdir="${build}" classpathref="base.path" debug="on" debuglevel="lines,vars,source">
+		</javac>
+	</target>
+
+	<target name="test-simple" description="">
+		<test target="SimpleTest" />
+	</target>
+
+	<target name="test-interactive-actors" description="*">
+		<test target="interactive.ActorsTest" />
+	</target>
+
+	<target name="test-interactive-animation" description="*-">
+		<test target="interactive.AnimationTest" />
+	</target>
+
+	<target name="test-interactive-behave" description="*">
+		<test target="interactive.BehaveTest" param="${path}"/>
+	</target>
+
+	<target name="test-interactive-binding-pool" description="*">
+		<test target="interactive.BindingPoolTest" />
+	</target>
+	
+	<target name="test-interactive-bin-layout" description="*">
+		<test target="interactive.BinLayoutTest" />
+	</target>
+
+	<target name="test-interactive-box-layout" description="*">
+		<test target="interactive.BoxLayoutTest" />
+	</target>
+
+	<target name="test-interactive-clip" description="crashes on button release">
+		<test target="interactive.ClipTest" />
+	</target>
+
+	<target name="test-interactive-depth" description="Works but hangs on exit">
+		<test target="interactive.DepthTest" />
+	</target>
+
+	<target name="test-interactive-devices" description="">
+		<test target="interactive.DevicesTest" />
+	</target>
+
+	<target name="test-interactive-easing" description="">
+		<test target="interactive.EasingTest" />
+	</target>
+
+	<target name="test-interactive-events" description="">
+		<test target="interactive.EventsTest" />
+	</target>
+	
+	<target name="test-interactive-fbo" description="">
+			<test target="interactive.FBOTest" />
+	</target>
+	
+	<target name="test-interactive-fullscreen" description="">
+			<test target="interactive.FullscreenTest" />
+	</target>
+	
+	<target name="test-interactive-flow-layout" description="">
+		<test target="interactive.FlowLayoutTest" />
+	</target>
+
+	<target name="test-interactive-grab" description="">
+		<test target="interactive.GrabTest" />
+	</target>
+	
+	<target name="test-interactive-layout" description="">
+			<test target="interactive.LayoutTest" />
+	</target>
+
+	<target name="test-interactive-multistage" description="">
+		<java fork="true" classname="${test.pkg}.interactive.MultistageTest" classpathref="tests.path">
+			<sysproperty key="java.library.path" value="${dest}" />
+		</java>
+	</target>
+
+	<target name="test-interactive-offscreen" description="">
+		<java fork="true" classname="${test.pkg}.interactive.OffscreenTest" classpathref="tests.path">
+			<sysproperty key="java.library.path" value="${dest}" />
+		</java>
+	</target>
+
+	<target name="test-interactive-paint-wrapper" description="">
+		<test target="interactive.PaintWrapperTest" />
+	</target>
+
+	<target name="test-interactive-project" description="">
+		<test target="interactive.ProjectTest" />
+	</target>
+
+	<target name="test-interactive-random-text" description="">
+		<test target="interactive.RandomTextTest" />
+	</target>
+
+	<target name="test-interactive-rotate" description="">
+		<test target="interactive.RotateTest" />
+	</target>
+
+	<target name="test-interactive-scale" description="">
+		<test target="interactive.ScaleTest" />
+	</target>
+
+	<target name="test-interactive-score" description="">
+		<java fork="true" classname="${test.pkg}.interactive.ScoreTest" classpathref="tests.path">
+			<sysproperty key="java.library.path" value="${dest}" />
+		</java>
+	</target>
+	
+	<target name="test-interactive-script" description="">
+		<test target="interactive.ScriptTest" />
+	</target>
+
+	<target name="test-interactive-shader" description="">
+		<test target="interactive.ShaderTest" />
+	</target>
+	
+	<target name="test-interactive-stage-read-pixels" description="">
+		<test target="interactive.StageReadPixelsTest" />
+	</target>
+	
+	<target name="test-interactive-text" description="">
+		<test target="interactive.TextTest" />
+	</target>
+
+	<target name="test-interactive-text-field" description="">
+		<test target="interactive.TextFieldTest" />
+	</target>
+
+	<target name="test-interactive-texture-async" description="">
+		<test target="interactive.TextureAsyncTest" />
+	</target>
+
+	<target name="test-interactive-texture-quality" description="">
+		<test target="interactive.TextureQualityTest" />
+	</target>
+
+	<target name="test-interactive-textures" description="">
+		<test target="interactive.TexturesTest" />
+	</target>
+
+	<target name="test-interactive-threads" description="">
+		<java fork="true" classname="${test.pkg}.interactive.ThreadsTest" classpathref="tests.path">
+			<sysproperty key="java.library.path" value="${dest}" />
+		</java>
+	</target>
+
+	<target name="test-interactive-unproject" description="">
+		<java fork="true" classname="${test.pkg}.interactive.UnprojectTest" classpathref="tests.path">
+			<sysproperty key="java.library.path" value="${dest}" />
+		</java>
+	</target>
+
+	<target name="test-interactive-viewport" description="">
+		<test target="interactive.ViewportTest" />
+	</target>
+	
+	<target name="test-gst-start-stop" description="">
+			<test target="gst.StartStopTest" />
+	</target>
+
+</project>

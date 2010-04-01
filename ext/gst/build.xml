@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     22 mars 2010 13:23:43                                                        
+
+     jcluter-gst    
+     GStreamer actor java binding
+                   
+     Kamal El Bedraoui                                                                
+     ====================================================================== -->
+<project name="jcluter-gst" default="jar">
+	<description>
+            GStreamer actor java binding
+    </description>
+
+	<property file="ant.properties" />
+
+	<target name="jar" depends="init">
+		<javac destdir="${build}" classpath="${jclutter.jar}" includes="org/jclutter/ext/**">
+			<src path="${src}" />
+		</javac>
+		<mkdir dir="${dest}" />
+		<jar destfile="${dest}/${jar.name}" basedir="${build}">
+		</jar>
+	</target>
+
+	<target name="init">
+		<delete dir="${build}" />
+		<mkdir dir="${build}" />
+	</target>
+	
+	<target name="clean">
+		<delete dir="${build}" />
+		<delete dir="${dest}" />
+	</target>
+
+</project>
